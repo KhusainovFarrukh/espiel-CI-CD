@@ -1,0 +1,7 @@
+1. add integration tests
+2. ci with integration tests
+3. dockerize
+4. cd (docker)
+5. cd (heroku)
+6. automated creation of releases
+7. automated creation of releases (by versions)
