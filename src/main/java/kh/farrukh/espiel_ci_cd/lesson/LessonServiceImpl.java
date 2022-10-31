@@ -20,6 +20,7 @@ public class LessonServiceImpl implements LessonService {
         if (courseId == null) {
             return lessonRepository.findAll().stream().map(LessonMappers::toLessonResponseDTO).toList();
         } else {
+            if (!courseRepository.existsById(courseId)) throw new ResourceNotFoundException("Course", "id", courseId);
             return lessonRepository.findAllByCourseId(courseId).stream().map(LessonMappers::toLessonResponseDTO).toList();
         }
     }

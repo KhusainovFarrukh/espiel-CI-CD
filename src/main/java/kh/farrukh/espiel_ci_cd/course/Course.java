@@ -25,4 +25,10 @@ public class Course extends EntityWithId {
     @Column(nullable = false)
     private String name;
     private String description;
+
+    public Course(Long id, String name, String description) {
+        super.setId(id);
+        this.name = name;
+        this.description = description;
+    }
 }

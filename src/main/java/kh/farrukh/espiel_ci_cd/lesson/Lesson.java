@@ -27,4 +27,11 @@ public class Lesson extends EntityWithId {
 
     @ManyToOne
     private Course course;
+
+    public Lesson(Long id, String name, String content, Course course) {
+        super.setId(id);
+        this.name = name;
+        this.content = content;
+        this.course = course;
+    }
 }

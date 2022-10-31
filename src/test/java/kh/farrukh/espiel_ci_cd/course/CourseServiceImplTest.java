@@ -23,13 +23,13 @@ class CourseServiceImplTest {
     private CourseRepository courseRepository;
 
     @InjectMocks
-    private CourseServiceImpl courseService;
+    private CourseServiceImpl underTest;
 
     @Test
     void getCourses_returnsEmptyList_ifThereIsNoCourses() {
         //given
         //when
-        List<CourseResponseDTO> actual = courseService.getCourses();
+        List<CourseResponseDTO> actual = underTest.getCourses();
 
         //then
         verify(courseRepository).findAll();
@@ -42,7 +42,7 @@ class CourseServiceImplTest {
         when(courseRepository.findAll()).thenReturn(List.of(new Course(), new Course()));
 
         //when
-        List<CourseResponseDTO> actual = courseService.getCourses();
+        List<CourseResponseDTO> actual = underTest.getCourses();
 
         //then
         verify(courseRepository).findAll();
@@ -54,7 +54,7 @@ class CourseServiceImplTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> courseService.getCourseById(1L))
+        assertThatThrownBy(() -> underTest.getCourseById(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -64,7 +64,7 @@ class CourseServiceImplTest {
         when(courseRepository.findById(1L)).thenReturn(Optional.of(new Course()));
 
         //when
-        CourseResponseDTO actual = courseService.getCourseById(1L);
+        CourseResponseDTO actual = underTest.getCourseById(1L);
 
         //then
         verify(courseRepository).findById(1L);
@@ -79,7 +79,7 @@ class CourseServiceImplTest {
         when(courseRepository.save(any())).thenReturn(course);
 
         //when
-        CourseResponseDTO actual = courseService.addCourse(courseRequestDTO);
+        CourseResponseDTO actual = underTest.addCourse(courseRequestDTO);
 
         //then
         verify(courseRepository).save(any());
@@ -93,7 +93,7 @@ class CourseServiceImplTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> courseService.updateCourse(1L, new CourseRequestDTO()))
+        assertThatThrownBy(() -> underTest.updateCourse(1L, new CourseRequestDTO()))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -106,7 +106,7 @@ class CourseServiceImplTest {
         when(courseRepository.save(any())).thenReturn(course);
 
         //when
-        CourseResponseDTO actual = courseService.updateCourse(1L, courseRequestDTO);
+        CourseResponseDTO actual = underTest.updateCourse(1L, courseRequestDTO);
 
         //then
         verify(courseRepository).findById(1L);
@@ -121,7 +121,7 @@ class CourseServiceImplTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> courseService.deleteCourseById(1L))
+        assertThatThrownBy(() -> underTest.deleteCourseById(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -131,7 +131,7 @@ class CourseServiceImplTest {
         when(courseRepository.existsById(1L)).thenReturn(true);
 
         //when
-        courseService.deleteCourseById(1L);
+        underTest.deleteCourseById(1L);
 
         //then
         verify(courseRepository).existsById(1L);
