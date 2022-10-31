@@ -18,22 +18,22 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<List<Course>> getCourses() {
+    public ResponseEntity<List<CourseResponseDTO>> getCourses() {
         return ResponseEntity.ok(courseService.getCourses());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable long id) {
+    public ResponseEntity<CourseResponseDTO> getCourseById(@PathVariable long id) {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Course> addCourse(@Valid @RequestBody CourseRequestDTO courseDto) {
+    public ResponseEntity<CourseResponseDTO> addCourse(@Valid @RequestBody CourseRequestDTO courseDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseDto));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Course> updateCourse(
+    public ResponseEntity<CourseResponseDTO> updateCourse(
             @PathVariable long id,
             @Valid @RequestBody CourseRequestDTO courseDto
     ) {

@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface CourseService {
 
-    List<Course> getCourses();
+    List<CourseResponseDTO> getCourses();
 
-    Course getCourseById(long id);
+    CourseResponseDTO getCourseById(long id);
 
-    Course addCourse(CourseRequestDTO courseRequestDTO);
+    CourseResponseDTO addCourse(CourseRequestDTO courseRequestDTO);
 
-    Course updateCourse(long id, CourseRequestDTO courseRequestDTO);
+    CourseResponseDTO updateCourse(long id, CourseRequestDTO courseRequestDTO);
 
     void deleteCourseById(long id);
 }

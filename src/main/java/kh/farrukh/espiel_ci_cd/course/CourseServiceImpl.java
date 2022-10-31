@@ -13,30 +13,34 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponseDTO> getCourses() {
+        return courseRepository.findAll().stream().map(CourseMappers::toCourseResponseDTO).toList();
     }
 
     @Override
-    public Course getCourseById(long id) {
-        return courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id));
+    public CourseResponseDTO getCourseById(long id) {
+        return CourseMappers.toCourseResponseDTO(
+                courseRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id))
+        );
     }
 
     @Override
-    public Course addCourse(CourseRequestDTO courseDto) {
-        return courseRepository.save(CourseMappers.toCourse(courseDto));
+    public CourseResponseDTO addCourse(CourseRequestDTO courseDto) {
+        return CourseMappers.toCourseResponseDTO(
+                courseRepository.save(CourseMappers.toCourse(courseDto))
+        );
     }
 
     @Override
-    public Course updateCourse(long id, CourseRequestDTO courseDto) {
+    public CourseResponseDTO updateCourse(long id, CourseRequestDTO courseDto) {
         Course existingCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id));
 
         existingCourse.setName(courseDto.getName());
         existingCourse.setDescription(courseDto.getDescription());
 
-        return courseRepository.save(existingCourse);
+        return CourseMappers.toCourseResponseDTO(courseRepository.save(existingCourse));
     }
 
     @Override
