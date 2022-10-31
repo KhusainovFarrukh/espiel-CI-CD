@@ -55,7 +55,10 @@ class CourseServiceImplTest {
         //when
         //then
         assertThatThrownBy(() -> underTest.getCourseById(1L))
-                .isInstanceOf(ResourceNotFoundException.class);
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("Course")
+                .hasMessageContaining("1")
+                .hasMessageContaining("id");
     }
 
     @Test
@@ -94,15 +97,18 @@ class CourseServiceImplTest {
         //when
         //then
         assertThatThrownBy(() -> underTest.updateCourse(1L, new CourseRequestDTO()))
-                .isInstanceOf(ResourceNotFoundException.class);
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("Course")
+                .hasMessageContaining("1")
+                .hasMessageContaining("id");
     }
 
     @Test
     void updateCourse_updatesCourse_ifCourseExists() {
         //given
-        CourseRequestDTO courseRequestDTO = new CourseRequestDTO("name", "description");
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(new Course(1L, "name", "description")));
+        CourseRequestDTO courseRequestDTO = new CourseRequestDTO("name new", "description new");
         Course course = CourseMappers.toCourse(courseRequestDTO);
-        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
         when(courseRepository.save(any())).thenReturn(course);
 
         //when
@@ -122,7 +128,10 @@ class CourseServiceImplTest {
         //when
         //then
         assertThatThrownBy(() -> underTest.deleteCourseById(1L))
-                .isInstanceOf(ResourceNotFoundException.class);
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("Course")
+                .hasMessageContaining("1")
+                .hasMessageContaining("id");
     }
 
     @Test

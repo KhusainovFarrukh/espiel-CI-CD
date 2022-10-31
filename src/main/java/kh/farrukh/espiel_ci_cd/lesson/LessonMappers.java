@@ -10,8 +10,10 @@ public class LessonMappers {
     public static Lesson toLesson(LessonRequestDTO lessonDTO, CourseRepository courseRepository) {
         Lesson lesson = new Lesson();
         BeanUtils.copyProperties(lessonDTO, lesson);
-        lesson.setCourse(courseRepository.findById(lessonDTO.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", lessonDTO.getCourseId())));
+        if (lessonDTO.getCourseId() != null) {
+            lesson.setCourse(courseRepository.findById(lessonDTO.getCourseId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Course", "id", lessonDTO.getCourseId())));
+        }
         return lesson;
     }
 
