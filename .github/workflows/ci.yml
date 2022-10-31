@@ -1,16 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-      - release-candidate
-      - dev
-  pull_request:
-    branches:
-      - master
-      - release-candidate
-      - dev
+  - push
 
 jobs:
   build:
@@ -77,5 +68,4 @@ jobs:
       - name: Upload JAVA artifact
         uses: actions/upload-artifact@v3
         with:
-          name: java-artifact
           path: target/*.jar
