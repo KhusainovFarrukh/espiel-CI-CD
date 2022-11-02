@@ -32,5 +32,5 @@ jobs:
           IMAGE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           REPOSITORY=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout | tr '[:upper:]' '[:lower:]')
           mvn --batch-mode clean package -DskipTests
-          docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION}
-          docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION}
+          docker build --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} && docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest
