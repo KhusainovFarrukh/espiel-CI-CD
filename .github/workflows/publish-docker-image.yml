@@ -2,8 +2,7 @@ name: Publish Docker image
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   push_to_registry:
@@ -28,8 +27,8 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
-      - name: Build JAR with Maven
-        run: mvn --batch-mode package -DskipTests
+      - name: Generate JAR with Maven
+        run: mvn clean package -DskipTests
       - name: Get current version
         run: IMAGE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
       - name: Build and push
