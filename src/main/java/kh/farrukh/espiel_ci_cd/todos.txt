@@ -1,3 +1,3 @@
-5. cd (heroku)
+5. cd (heroku) (without starter github action)
 6. automated creation of releases
 7. automated creation of releases (by versions)
