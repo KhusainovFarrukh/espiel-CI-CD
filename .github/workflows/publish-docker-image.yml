@@ -29,17 +29,8 @@ jobs:
           distribution: 'adopt'
       - name: Build and push
         run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          IMAGE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           REPOSITORY=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout | tr '[:upper:]' '[:lower:]')
           mvn --batch-mode clean package -DskipTests
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPOSITORY }}:${{ env.VERSION }}
-#      - name: Build and push
-#        run: |
-#          IMAGE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-#          REPOSITORY=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout | tr '[:upper:]' '[:lower:]')
-#          mvn --batch-mode clean package -DskipTests
-#          docker build --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest .
-#          docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} && docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest
+          docker build --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} --tag ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:${IMAGE_VERSION} && docker push ${{ secrets.DOCKER_USERNAME }}/${REPOSITORY}:latest
