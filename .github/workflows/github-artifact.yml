@@ -1,9 +1,6 @@
 name: Upload artifact
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
   upload-artifact:
