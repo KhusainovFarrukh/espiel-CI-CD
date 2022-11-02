@@ -27,12 +27,10 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
-      - name: Generate JAR with Maven
-        run: mvn clean package -DskipTests
       - name: Get current version
         run: IMAGE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
       - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/espiel-ci-cd:0.0.1-SNAPSHOT
+        run: |
+          mvn --batch-mode clean package -DskipTests
+          docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/espiel-ci-cd:0.0.1-SNAPSHOT
+          docker push ${{ secrets.DOCKER_USERNAME }}/espiel-ci-cd:0.0.1-SNAPSHOT
